@@ -24,11 +24,11 @@ DifyAISearchEngine 是一个基于 Dify 构建的高级搜索工具，结合了�
 
 ## 使用方法
 
-克隆本项目，或下载DifyAISearchEngine.yml文件即可
+克隆本项目，或下载DifyAISearchEngine.yml文件，导入Dify即可
 
 ## 依赖
 
-- Dify 平台
+- [Dify 平台](https://github.com/langgenius/dify)
 
 ## 配置
 
@@ -48,5 +48,5 @@ DifyAISearchEngine 是一个基于 Dify 构建的高级搜索工具，结合了�
 
 ## 致谢
 
-- Dify 团队提供的强大平台
-- DuckDuckGo
+- [Dify 团队提供的强大平台](https://github.com/langgenius/dify)
+- [DuckDuckGo](https://duckduckgo.com)
