@@ -1,0 +1,318 @@
+app:
+  description: web搜索扩展总结内容
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: 发起web搜索并总结
+kind: app
+version: 0.1.1
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        sourceType: start
+        targetType: llm
+      id: 1724225358355-source-1724225382322-target
+      source: '1724225358355'
+      sourceHandle: source
+      target: '1724225382322'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: llm
+        targetType: end
+      id: 1724228790371-source-1724227013944-target
+      source: '1724228790371'
+      sourceHandle: source
+      target: '1724227013944'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: llm
+        targetType: tool
+      id: 1724225382322-source-1724228514957-target
+      source: '1724225382322'
+      sourceHandle: source
+      target: '1724228514957'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: tool
+        targetType: code
+      id: 1724228514957-source-1724230114999-target
+      source: '1724228514957'
+      sourceHandle: source
+      target: '1724230114999'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: code
+        targetType: llm
+      id: 1724230114999-source-1724228790371-target
+      source: '1724230114999'
+      sourceHandle: source
+      target: '1724228790371'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - label: 用户输入要查询的文本
+          max_length: null
+          options: []
+          required: true
+          type: text-input
+          variable: user_input_text
+      height: 90
+      id: '1724225358355'
+      position:
+        x: 30
+        y: 258
+      positionAbsolute:
+        x: 30
+        y: 258
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: internlm/internlm2_5-7b-chat
+          provider: siliconflow
+        prompt_template:
+        - id: d51d70e4-0437-47bb-99e3-968b2589e931
+          role: system
+          text: '【正文】：{{#1724225358355.user_input_text#}}
+
+
+            ## 行为
+
+            - 从【正文】中找到三个相关联的【核心关键词】，用于搜索和拓展更多信息
+
+            - 将【核心关键词】用+号拼接
+
+            - 输出拼接后的【核心关键词】
+
+
+            ## 注意事项
+
+            - 输出结果只有【核心关键词】
+
+            - 当【正文】中出现人名时，【核心关键词】中必须包含人名
+
+
+            ## 示例
+
+            【正文】：美国总统胡佛
+
+            【核心关键词】：美国+胡佛+总统
+
+            '
+        selected: false
+        title: 概括关键词主要内容
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 98
+      id: '1724225382322'
+      position:
+        x: 334
+        y: 258
+      positionAbsolute:
+        x: 334
+        y: 258
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        provider_id: duckduckgo
+        provider_name: duckduckgo
+        provider_type: builtin
+        selected: false
+        title: 调用duckduckgo搜索
+        tool_configurations:
+          max_results: 100
+          require_summary: 0
+        tool_label: DuckDuckGo 搜索
+        tool_name: ddgo_search
+        tool_parameters:
+          query:
+            type: mixed
+            value: '{{#1724225382322.text#}}'
+        type: tool
+      height: 116
+      id: '1724228514957'
+      position:
+        x: 638
+        y: 258
+      positionAbsolute:
+        x: 638
+        y: 258
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1724228790371'
+          - text
+          variable: final_result
+        selected: false
+        title: 结束
+        type: end
+      height: 90
+      id: '1724227013944'
+      position:
+        x: 1550
+        y: 258
+      positionAbsolute:
+        x: 1550
+        y: 258
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: moonshot-v1-128k
+          provider: moonshot
+        prompt_template:
+        - edition_type: basic
+          id: f625c846-e5cd-42a7-8793-460b12384654
+          role: system
+          text: '【数据】：{{#1724230114999.result#}}
+
+
+            ## 行为
+
+            - 忽略无效和边缘信息，用300-500字中文总结【数据】里的【核心信息】，并备注参考【链接】来源，一步步思考后以markdown格式输出
+
+            - 输出分为两部分，上半部分为【核心信息】，下半部分为【链接】
+
+
+            ## 注意事项
+
+            - 【数据】中有【标题】、【链接】和【内容】，参考链接来源必须包含【标题】和【链接】
+
+            '
+        selected: false
+        title: 总结json搜索结果的信息
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 98
+      id: '1724228790371'
+      position:
+        x: 1246
+        y: 258
+      positionAbsolute:
+        x: 1246
+        y: 258
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        code: "import json\n\ndef extract_json_fields(data):\n    extracted_data =\
+          \ []\n    for item in data:\n        extracted_item = {\n            'title':\
+          \ item.get('title', ''),\n            'href': item.get('href', ''),\n  \
+          \          'body': item.get('body', '')\n        }\n        extracted_data.append(extracted_item)\n\
+          \    \n    return extracted_data\n\ndef main(arg1):\n    result = extract_json_fields(arg1)\n\
+          \    \n    output = []\n    for item in result:\n        output.append(f\"\
+          标题: {item['title']}\")\n        output.append(f\"链接: {item['href']}\")\n\
+          \        output.append(f\"内容: {item['body']}\")\n        output.append('-'\
+          \ * 50)\n    \n    return {'result': '\\n'.join(output)}"
+        code_language: python3
+        desc: ''
+        outputs:
+          result:
+            children: null
+            type: string
+        selected: false
+        title: 处理json类型的搜索结果
+        type: code
+        variables:
+        - value_selector:
+          - '1724228514957'
+          - json
+          variable: arg1
+      height: 54
+      id: '1724230114999'
+      position:
+        x: 942
+        y: 258
+      positionAbsolute:
+        x: 942
+        y: 258
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    viewport:
+      x: 0
+      y: 0
+      zoom: 0.7
