@@ -38,6 +38,7 @@ DifyAISearchEngine 是一个基于 Dify 构建的高级搜索工具，结合了�
 ## 许可证
 
 本项目采用 Apache License 2.0 许可证。
+
 这意味着您可以自由地：
 
 使用本软件进行商业用途
